@@ -116,7 +116,19 @@ def ready(store: ConversationStore = Depends(get_store)):
     Khác /health ở chỗ: endpoint này ĐƯỢC PHÉP kiểm tra dependency. Load
     balancer dùng nó để quyết định có đẩy request vào instance này không.
     """
-    
+    if lifecycle.shutting_down:
+        return JSONResponse(
+            status_code=503,
+            content={"status": "shutting_down"},
+        )
+
+    if not store.ping():
+        return JSONResponse(
+            status_code=503,
+            content={"status": "not ready", "redis": False},
+        )
+
+    return {"status": "ready", "redis": True}
 
 
 # ─────────────────────────────────────────────────────────────
@@ -132,7 +144,7 @@ def ask(
 ):
     """Hỏi agent một câu.
 
-    TODO (CP3 + CP4) — làm ĐÚNG THỨ TỰ sau:
+    (CP3 + CP4) — làm ĐÚNG THỨ TỰ sau:
       1. ``limiter.check(user_id)``           → 429 nếu gọi quá nhanh
       2. ``guard.check(user_id)``             → 402 nếu hết ngân sách
       3. ``history = store.get_history(user_id)``
@@ -167,7 +179,7 @@ def ask(
     store.append(user_id, "assistant", result["answer"])
     guard.record(user_id, result["cost_usd"])
     log_event("ask_completed", user_id=user_id, tokens_in=result["tokens_in"], tokens_out=result["tokens_out"], cost_usd=result["cost_usd"])
-    return {"answer": result["answer"], "user_id": user_id, "history_length": len(history), "cost_usd": result["cost_usd"], "tokens": {"in": result["tokens_in"], "out": result["tokens_out"]}}
+    return {"answer": result["answer"], "user_id": user_id, "history_length": len(history) // 2 + 1, "cost_usd": result["cost_usd"], "tokens": {"in": result["tokens_in"], "out": result["tokens_out"]}}
 
 
 if __name__ == "__main__":

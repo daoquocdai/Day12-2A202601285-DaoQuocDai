@@ -77,7 +77,7 @@ class AskRequest(BaseModel):
 def health():
     """Liveness probe — process còn sống không?
 
-    TODO (CP1 + CP4):
+    (CP1 + CP4):
       - Đang tắt dần (``lifecycle.shutting_down``) → trả
         ``JSONResponse(status_code=503, content={"status": "shutting_down"})``
       - Bình thường → ``{"status": "ok", "service": SERVICE_NAME,
@@ -87,14 +87,24 @@ def health():
     lời câu hỏi "có cần restart container này không?". Nếu nó phụ thuộc
     Redis, Redis chết một nhịp là cả cụm container bị restart theo.
     """
-    raise NotImplementedError("TODO (CP1/CP4): cài đặt /health")
+    if lifecycle.shutting_down:
+            return JSONResponse(
+            status_code=503,
+            content={"status": "shutting_down"},
+            )
+    
+    return {
+        "status": "ok",
+        "service": SERVICE_NAME,
+        "version": SERVICE_VERSION,
+    }
 
 
 @app.get("/ready")
 def ready(store: ConversationStore = Depends(get_store)):
     """Readiness probe — đã sẵn sàng nhận traffic chưa?
 
-    TODO (CP4):
+    (CP4):
       - Đang tắt dần → 503 ``{"status": "shutting_down"}``
       - ``store.ping()`` False → 503 ``{"status": "not ready", "redis": False}``
       - Ngược lại → ``{"status": "ready", "redis": True}``
@@ -102,7 +112,7 @@ def ready(store: ConversationStore = Depends(get_store)):
     Khác /health ở chỗ: endpoint này ĐƯỢC PHÉP kiểm tra dependency. Load
     balancer dùng nó để quyết định có đẩy request vào instance này không.
     """
-    raise NotImplementedError("TODO (CP4): cài đặt /ready")
+    
 
 
 # ─────────────────────────────────────────────────────────────

@@ -179,7 +179,7 @@ def ask(
     store.append(user_id, "assistant", result["answer"])
     guard.record(user_id, result["cost_usd"])
     log_event("ask_completed", user_id=user_id, tokens_in=result["tokens_in"], tokens_out=result["tokens_out"], cost_usd=result["cost_usd"])
-    return {"answer": result["answer"], "user_id": user_id, "history_length": len(history) // 2 + 1, "cost_usd": result["cost_usd"], "tokens": {"in": result["tokens_in"], "out": result["tokens_out"]}}
+    return {"answer": result["answer"], "user_id": user_id, "history_length": len(history), "cost_usd": result["cost_usd"], "tokens": {"in": result["tokens_in"], "out": result["tokens_out"]}}
 
 
 if __name__ == "__main__":

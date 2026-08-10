@@ -275,3 +275,6 @@ Nộp **link repository** lên Codelab. Repo phải ở chế độ public.
 - [ ] Không còn `NotImplementedError` nào trong `app/`
 - [ ] Có commit ở nhiều mốc thời gian, không phải một commit duy nhất
 - [ ] *(Bonus)* `.github/workflows/ci.yml` chạy xanh, README có badge `passing`
+# Day12 Agent
+
+![CI](https://github.com/daoquocdai/Day12-2A202601285-DaoQuocDai/actions/workflows/ci.yml/badge.svg)

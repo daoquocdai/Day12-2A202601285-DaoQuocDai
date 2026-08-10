@@ -35,14 +35,16 @@ jobs:
     needs: [test, build]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-22.04
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+      RAILWAY_SERVICE: ${{ secrets.RAILWAY_SERVICE }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install Railway CLI
+        if: env.RAILWAY_TOKEN != '' && env.RAILWAY_PROJECT_ID != '' && env.RAILWAY_SERVICE != ''
         run: npm install --global @railway/cli@4
       - name: Deploy
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
-          RAILWAY_SERVICE: ${{ secrets.RAILWAY_SERVICE }}
+        if: env.RAILWAY_TOKEN != '' && env.RAILWAY_PROJECT_ID != '' && env.RAILWAY_SERVICE != ''
         run: railway up --ci --project "$RAILWAY_PROJECT_ID" --service "$RAILWAY_SERVICE"

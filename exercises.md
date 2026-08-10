@@ -2,10 +2,6 @@
 
 > **Bài làm cá nhân.** Trả lời bằng lời của chính bạn, dựa trên những gì bạn
 > quan sát được khi chạy code — không sao chép đáp án của người khác.
->
-> Cách trả lời: thay dòng `> *Câu trả lời của bạn*` bằng câu trả lời.
-> `grade.py` đếm số câu đã trả lời (15 điểm cho 10 câu).
->
 > Họ và tên: Đào Quốc Đại  Mã học viên: 2A202601285
 
 ---
@@ -47,7 +43,8 @@ không làm được.
   },
   "timestamp": "2026-08-10T05:23:34.681756396Z"
 } 
->Từ dòng log JSON này, tôi có thể lọc và tìm kiếm request theo các trường cụ thể như user_id, event hoặc level, ví dụ tìm toàn bộ request của sv-test hoặc chỉ các event ask_completed. Ngoài ra, tôi có thể thống kê chi phí và số token từ các trường cost_usd, tokens_in, tokens_out để theo dõi mức sử dụng và tạo dashboard. Nếu chỉ dùng print("đã trả lời xong") thì tôi không biết request thuộc user nào, tốn bao nhiêu token hay chi phí bao nhiêu.
+>Từ dòng log JSON này, tôi có thể lọc và tìm kiếm request theo các trường cụ thể như user_id, event hoặc level, ví dụ tìm toàn bộ request của sv-test hoặc chỉ các event ask_completed. 
+>Ngoài ra, tôi có thể thống kê chi phí và số token từ các trường cost_usd, tokens_in, tokens_out để theo dõi mức sử dụng và tạo dashboard. Nếu chỉ dùng print("đã trả lời xong") thì tôi không biết request thuộc user nào, tốn bao nhiêu token hay chi phí bao nhiêu.
 
 ---
 
